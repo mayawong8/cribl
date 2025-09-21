@@ -1,0 +1,29 @@
+services:
+  target1:
+    build: .
+    command: ["node", "app.js", "target/"]
+    volumes: [./output/target1:/usr/src/app/output]
+    networks: [myapp]
+
+  target2:
+    build: .
+    command: ["node", "app.js", "target2/"]
+    volumes: [./output/target2:/usr/src/app/output]
+    networks: [myapp]
+
+
+  splitter:
+    build: .
+    command: ["node", "app.js", "splitter/"]
+    depends_on: [target1, target2]
+    networks: [myapp]
+
+  agent:
+    build: .
+    command: ["node", "app.js", "agent/"]
+    depends_on: [splitter]
+    networks: [myapp]
+
+networks:
+  myapp:
+    driver: bridge

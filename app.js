@@ -8,6 +8,7 @@ function agent(agent_dir) {
     var monitored_filename;
     var hostport;
     // const agent_dir = "agent/";
+    //reads the host and port of the splitter from it's outputs.json and connects to it
     fs.promises.readFile(agent_dir + "/outputs.json")
         .then(function (data) {
         var json = JSON.parse(data);
@@ -38,6 +39,7 @@ function writeToSocket(data, remoteSocket, localSocket) {
 }
 function splitter(conf_directory) {
     console.log("working as splitter");
+    //reads own input.json, gets port number, calls server.listen(port)
     var data = fs.readFileSync(conf_directory + "/outputs.json");
     var json = JSON.parse(data);
     var targets = json.tcp;
@@ -63,6 +65,7 @@ function splitter(conf_directory) {
             });
         });
         localSocket.on('data', function (data) {
+            console.log("splitter received chunk:", data.toString());
             // find new line if it exists. 
             //      Send 1st part to current socket (sockIdx)
             //      Send 2nd part to next socket(socket2). Make socket2 the current socket
@@ -102,7 +105,7 @@ function target(conf_directory) {
         localSocket.on('data', function (data) {
             fs.appendFile(outputfile, data, function () {
                 // written to file
-                // console.debug("Written to file");
+                console.debug("Written to file", data.toString());
             });
         });
     });
