@@ -23,6 +23,15 @@ services:
     command: ["node", "app.js", "agent/"]
     depends_on: [splitter]
     networks: [myapp]
+  
+  tests:
+    build: 
+      context: .
+      dockerfile: Dockerfile.test
+    volumes: ["./output:/tests/output"]
+    depends_on: [agent]
+    networks: [myapp]
+
 
 networks:
   myapp:

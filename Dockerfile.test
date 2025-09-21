@@ -1,0 +1,6 @@
+FROM python:3.11-slim
+WORKDIR /tests
+COPY test-requirement.txt .
+RUN pip install --no-cache-dir -r test-requirement.txt
+COPY . .
+CMD ["pytest", "-v", "test_cases.py"]
