@@ -65,7 +65,6 @@ function splitter(conf_directory) {
             });
         });
         localSocket.on('data', function (data) {
-            console.log("splitter received chunk:", data.toString());
             // find new line if it exists. 
             //      Send 1st part to current socket (sockIdx)
             //      Send 2nd part to next socket(socket2). Make socket2 the current socket
@@ -105,7 +104,7 @@ function target(conf_directory) {
         localSocket.on('data', function (data) {
             fs.appendFile(outputfile, data, function () {
                 // written to file
-                console.debug("Written to file", data.toString());
+                //console.debug("Written to file", data.toString());
             });
         });
     });
