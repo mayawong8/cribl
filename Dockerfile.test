@@ -1,6 +1,12 @@
+#python 3.11 slim as the base image
 FROM python:3.11-slim
+# Set working directory inside the container
 WORKDIR /tests
+# Copy dependencies manifests
 COPY test-requirement.txt .
+# Install dependencies listed in the requirements file
 RUN pip install --no-cache-dir -r test-requirement.txt
+# Copy assignment code into the container
 COPY . .
+# Run pytest with verbose output with test_case.py test suite
 CMD ["pytest", "-v", "test_cases.py"]

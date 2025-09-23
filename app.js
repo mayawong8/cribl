@@ -64,6 +64,8 @@ function splitter(conf_directory) {
                 localSocket.resume();
             });
         });
+        // NOTE: does not work as expected, the data isn't iterated it only takes the first line
+        // round-robin distribution does not occur
         localSocket.on('data', function (data) {
             // find new line if it exists. 
             //      Send 1st part to current socket (sockIdx)
