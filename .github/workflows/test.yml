@@ -8,14 +8,14 @@ on:
 
 jobs:
   test:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
       
       - name: Set up Docker
-        uses: docker/setup-buildx-actions@v3
+        uses: docker/setup-buildx-action@v3
       
       - name: Build/start app then run tests
         run: |
