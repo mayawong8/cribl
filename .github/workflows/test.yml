@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests
         run: |
-          docker compose run --rm tests pytest -v
+          docker compose run --rm --profile=tests tests -v
       
       - name: Tear down containers
         if: always()
