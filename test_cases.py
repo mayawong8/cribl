@@ -53,8 +53,6 @@ def test_order_within_log_in_indiv_log(log_path):
         if num is not None:
             assert num > last, f"Event numbers are not increasing in {log_path}, on line {i}: {content[i]}"
             last = num
-        else: 
-            continue
 
 #  Test case 4: Verify no duplicate event numbers within a single log file
 def test_no_duplicates_in_indiv_log(log_path):
@@ -65,8 +63,6 @@ def test_no_duplicates_in_indiv_log(log_path):
         if num is not None:
             assert num not in seen, f"Duplicate event number {num} in {log_path}, on line {i}: {content[i]}"
             seen.add(num)
-        else:
-            continue
 
 #  Test case 5: Verify no duplicate event numbers across all logs files
 def test_no_duplicates_across_logs():
@@ -83,16 +79,12 @@ def test_no_duplicates_across_logs():
         num = parse_event_number(content_target1[i])
         if num is not None:
             seen_target1.add(num)
-        else:
-            continue
     
     content_target2 = read_log(log_paths[1])
     for i in range(len(content_target2)):
         num = parse_event_number(content_target2[i])
         if num is not None:
             seen_target2.add(num)
-        else:
-            continue
     
     overlap = seen_target1.intersection(seen_target2)
     assert not overlap, f"Duplicate event number in both log files: {overlap}"
@@ -107,7 +99,7 @@ def test_no_missing_logs():
     for log_path in log_paths:
         content = read_log(log_path)
         for line in content:
-            words = line.strip().split()
-            if len(words) == 5 and words[4].isdigit():
-                seen.add(int(words[4]))
+            num = parse_event_number(line)
+            if num is not None:
+                seen.add(num)
     assert seen == set(range(1,1000001)), f"Events are missing or out of range, counted {len(seen)}"
