@@ -20,7 +20,7 @@ jobs:
       - name: Build/start app then run tests
         run: |
           docker compose --profile=app up -d --build
-          docker compose --profile=tests up --build --exit-code-from tests
+          docker compose --profile=tests up --build --exit-code-from tests pytest -v
       
       - name: Tear down containers
         if: always()
