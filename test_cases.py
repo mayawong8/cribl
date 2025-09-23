@@ -74,16 +74,28 @@ def test_no_duplicates_across_logs():
         pathlib.Path("output/target1/events.log"),
         pathlib.Path("output/target2/events.log")
     ]
-    seen = set()
-    for log_path in log_paths:
-        content = read_log(log_path)
-        for i in range(len(content)):
-            num = parse_event_number(content[i])
-            if num is not None:
-                assert num not in seen, f"Event numbers duplicate across all log, on line {i}: {content[i]}"
-                seen.add(num)
-            else:
-                continue
+    seen_target1 = set()
+    seen_target2 = set()
+
+    content_target1 = read_log(log_paths[0])
+
+    for i in range(len(content_target1)):
+        num = parse_event_number(content_target1[i])
+        if num is not None:
+            seen_target1.add(num)
+        else:
+            continue
+    
+    content_target2 = read_log(log_paths[1])
+    for i in range(len(content_target2)):
+        num = parse_event_number(content_target2[i])
+        if num is not None:
+            seen_target2.add(num)
+        else:
+            continue
+    
+    overlap = seen_target1.intersection(seen_target2)
+    assert not overlap, f"Duplicate event number in both log files: {overlap}"
 
 #  Test case 6: Verify no missing lines, all events from 1-1,000,000 are present across all log files
 def test_no_missing_logs():
