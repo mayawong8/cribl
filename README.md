@@ -3,8 +3,10 @@
 ## How to use:
 
 ```bash
-docker-compose up --build #start all services
-docker-compose down #stop all services
+docker compose --profile=app up -d --build #start app in the background
+docker compose --profile=tests up --build --exit-code-from tests #exit code after test suite completes
+docker compose --profile=tests --profile=app down #clean up
+
 rm -rf ./output/target1 ./output/target2 #clean up generated logs
 
 

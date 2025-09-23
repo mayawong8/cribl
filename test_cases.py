@@ -87,7 +87,7 @@ def test_no_duplicates_across_logs():
             seen_target2.add(num)
     
     overlap = seen_target1.intersection(seen_target2)
-    assert not overlap, f"Duplicate event number in both log files: {overlap}"
+    assert not overlap, f"Duplicate event number in both log files: count {len(overlap)}"
 
 #  Test case 6: Verify no missing lines, all events from 1-1,000,000 are present across all log files
 def test_no_missing_logs():

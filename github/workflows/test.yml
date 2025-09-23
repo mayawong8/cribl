@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    run_ons: ubuntu-latest
+    run_on: ubuntu-latest
 
     steps:
       - name: Checkout repo
