@@ -19,13 +19,13 @@ jobs:
       
       - name: Start app
         run: |
-          docker compose --profile=app up -d --build
+          docker compose -f docker-compose.dynamic.yml --profile=app up -d --build
 
       - name: Run tests
         run: |
-          docker compose --profile=tests up --build --exit-code-from tests
+          docker compose -f docker-compose.dynamic.yml run --rm --build tests pytest -v
       
       - name: Tear down containers
         if: always()
         run: |
-          docker compose --profile=tests --profile=app down
+          docker compose --profile=tests --profile=app down --remove-orphans

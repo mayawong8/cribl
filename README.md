@@ -2,12 +2,14 @@
 
 ## How to use:
 
-```bash
-docker compose --profile=app up -d --build #start app in the background
-docker compose --profile=tests up --build --exit-code-from tests #exit code after test suite completes
-docker compose --profile=tests --profile=app down #clean up
+run ./run_targets.sh from terminal 
 
-rm -rf ./output/target1 ./output/target2 #clean up generated logs
+```bash
+docker compose -f docker-compose.dynamic.yml --project-name assignment --profile=app up -d --build #start app
+docker compose -f docker-compose.dynamic.yml --project-name assignment run --rm --build tests pytest -v #exit code after test suite completes
+docker compose -f docker-compose.dynamic.yml --project-name assignment --profile=app --profile=test down --remove-orphans #clean up
+
+rm -rf ./output/target1 ./output/target2 #clean up generated logs (while testing 2 targets)
 
 
 Assumptions:
@@ -27,7 +29,7 @@ Strategy:
 2. Orchestration
     - docker-compose manages service dependencies and networking. Start up order: targets --> splitter --> agent --> tests
 3. Scalability
-    - The pipeline can be extended by adding more target services. Additionally, the splitter distributes the load, making the system suitable for processing larger log volumes
+    - The pipeline can be extended by adding more target services. Additionally, the splitter distributes the load, making the system suitable for processing larger log volumes. I also dynamically create the docker-compose.dynamic.yml to support multiple targets.
 4. Test Automation
     - the test container autonomously verifies correctness of log format, uniqueness of event numbers, and complete coverage of all expected events of events (1 to 1M events)
 
