@@ -28,4 +28,4 @@ jobs:
       - name: Tear down containers
         if: always()
         run: |
-          docker compose --profile=tests --profile=app down --remove-orphans
+          docker compose -f docker-compose.dynamic.yml --profile=app --profile=test down --remove-orphans

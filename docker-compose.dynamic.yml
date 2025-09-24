@@ -1,5 +1,5 @@
 services:
-#Dynamically generated target services
+#Dynamically generated target services for docker-compose file
     target1:
         build: .
         command: ["node", "app.js", "target/"]
