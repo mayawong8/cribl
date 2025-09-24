@@ -17,6 +17,8 @@ Assumptions:
 - The agent receives a log with 1 to 1,000,000 event lines (incrementing by 1) formatted accordingly: "This is event number <positive integer that does not start with a 0>"
 - Each event number is expected to be unique, without any gaps or duplicates
 
+- I edited splitter outputs.json to include multiple output hosts to simulate multiple targets.
+
 Splitter behavior:
 - The splitter is intended to "receive data from an agent and randomly splits the data between 2 configured target hosts" 
 - Splitter only splits on the first newline per chunk which can cause uneven distribution and cut lines across logs 
